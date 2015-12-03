@@ -56,6 +56,30 @@ $(document).ready (function (){
                 if (data != '') {
                     $('.table-rows, .search-error').remove();
                     $('table').append(data);
+                } else {
+                    $('.table-rows, .search-error').remove();
+                    $('table').after('<p class="search-error">All cards deleted!</p>');
+                }
+            }
+        })
+    })
+
+
+    $('.records-count').on('change', function (event) {
+        event.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: 'paginator.php',
+            data: {
+                "records-count": $("#records-count").val()
+            },
+            success: function (data) {
+                $('.table-rows, .search-error').remove();
+                if (data == '') {
+                    $('table').after('<p class="search-error">Nothing found!</p>');
+                } else {
+                    $('table').append(data);
                 }
             }
         })

@@ -26,6 +26,11 @@ switch ($button) {
             }
         }
         break;
+    case dellAll:
+
+                $result = $mysqli->query("DELETE FROM table_1");
+
+        break;
 }
 
         $result = $mysqli->query("SELECT series, number, start_date, end_date, status FROM table_1");

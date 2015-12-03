@@ -14,12 +14,13 @@ include ('expiration.php');
         <button  value="activate" class="activate" name="activate">Activate selected cards</button>
         <button  value="deactivate" class="deactivate" name="deactivate">Deactivate selected cards</button>
         <button  value="delete" class="" name="del-sel">Delete selected cards</button>
-        <button  class="" name="del-all">Delete all cards</button>
+        <button  value="dellAll" class="dellAll" name="dellAll">Delete all cards</button>
     </div>
     <?php
+    $startPos = 0;
+    $showed = 10;
+    $result = $mysqli->query("SELECT series, number, start_date, end_date, status FROM table_1 LIMIT $startPos, $showed");
 
-    $result = $mysqli->query("SELECT series, number, start_date, end_date, status FROM table_1");
-    $rows = $result->fetch_assoc();
 
     echo "<table class='table'>";
         echo "<tr>";
@@ -49,7 +50,7 @@ include ('expiration.php');
 
 
     <?php
-    do  {
+    while ($rows = $result->fetch_assoc())  {
         echo "<tr class='table-rows'>";
             echo "<td><a href='detail.php?number=" . $rows['number'] . "'>" .$rows['series']. "</a></td>";
             echo "<td><a href='detail.php?number=" . $rows['number'] . "'>" .$rows['number']. "</a></td>";
@@ -58,11 +59,15 @@ include ('expiration.php');
             echo "<td><a href='detail.php?number=" . $rows['number'] . "'>" .$rows['status']. "</a></td>";
             echo "<td><input class='checked' type='checkbox' value='" .$rows['number']. "'></td>";
         echo "</tr>";
-    } while ($rows = $result->fetch_assoc());
-
-
+    } ;
     echo "</table>";
     ?>
+<label for="">Show records</label>
+<select id="records-count" class="records-count" name='records-count' size='1'>
+    <option selected value='10'>10</option>
+    <option value='50'>50</option>
+    <option value='100'>100</option>
+</select>
 </div>
 
 
