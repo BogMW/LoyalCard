@@ -30,7 +30,7 @@ class checkSeriesTest extends PHPUnit_Framework_TestCase
             array('aa', "AA"),
             array('a1', "Digits not allowed in Series"),
             array('a', 'Series must contain 2 symbol')
-            // Специально не прописано в классе действие для одного символа, для иммитации ситуации когда с помощью теста это обнаружил
+
         );
     }
 }
