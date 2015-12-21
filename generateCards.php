@@ -8,6 +8,7 @@
 <body>
 <?php
 require_once ('config.php');
+require_once ('checkSeries.php');
 include "header.php";
 $series = $_POST['series'];
 $quantity = $_POST['quantity'];
@@ -55,6 +56,9 @@ for ($i = 0; $i < $quantity; $i++) {
         $result = $mysqli->query("SELECT number FROM table_1 WHERE number='$number'");
         $rows = $result->fetch_assoc();
     } while (!empty($rows));
+
+$checkSeries = new checkSeries();
+$series = $checkSeries->checkRecordSeries($series);
 
     $mysqli->query("INSERT INTO table_1
 (series, number, start_date, end_date, status)

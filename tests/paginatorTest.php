@@ -29,6 +29,7 @@ class paginator_classTest extends PHPUnit_Framework_TestCase
             array(100, 10, "There is shown 10 of 100 records"),
             array(50, 20, "There is shown 20 of 50 records"),
             array(100, 20, "There is shown 10 of 100 records"),
+            array(87, 100, "There is shown 87 of 87 records"),
             array(9, 8, NULL)
         );
     }
