@@ -6,7 +6,10 @@ $number = $_GET['number'];
 $result = $mysqli->query("SELECT series, number, start_date, end_date, status FROM table_1 WHERE number='$number'");
 $rows = $result->fetch_assoc();
 $result2 = $mysqli->query("SELECT summ, date FROM operations WHERE number='$number'");
-$rows2 = $result2->fetch_assoc();
+$result3 = $mysqli->query("SELECT summ, date FROM operations WHERE number='$number'");
+$operSum = array();
+$sumByCard = 0;
+$sumCount = 0;
 
 echo "<h1>Detail info by card #" .$number. "</h1>";
 
@@ -34,15 +37,48 @@ echo "<table class='table'>";
         echo "<th>Date fo use</th>";
     echo "</tr>";
 
-do {
+while ($rows2 = $result2->fetch_assoc()) {
     echo "<tr class=''>";
         echo "<td>" .$rows2['summ']. "</td>";
         echo "<td>" .$rows2['date']. "</td>";
     echo "</tr>";
-} while ($rows2 = $result2->fetch_assoc());
+} ;
 
 
 echo "</table>";
+
+
+while ($rows = $result3->fetch_assoc())  {
+    array_push($operSum, $rows['summ']);
+}
+
+
+class detail {
+
+    public function AddSumm($arr) {
+        foreach ($arr as $value) {
+            $sumByCard += $value;
+        }
+        echo ('Summ by card - ' . $sumByCard . '<br/>');
+        return $sumByCard;
+    }
+    public function CountOfSumm($arr) {
+        foreach ($arr as $value) {
+            $sumCount += 1;
+        }
+        echo ('Count of transactions - ' . $sumCount);
+        return $sumCount;
+    }
+}
+
+$detail = new detail();
+$detail->AddSumm($operSum);
+$detail->CountOfSumm($operSum);
+
+
+
+
+
 
 
 include "footer.php";

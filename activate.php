@@ -27,9 +27,7 @@ switch ($button) {
         }
         break;
     case dellAll:
-
                 $result = $mysqli->query("DELETE FROM table_1");
-
         break;
 }
 
