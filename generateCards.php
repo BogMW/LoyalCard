@@ -9,6 +9,7 @@
 <?php
 require_once ('config.php');
 require_once ('checkSeries.php');
+require_once ('checkNumberLength.php');
 include "header.php";
 $series = $_POST['series'];
 $quantity = $_POST['quantity'];
@@ -53,6 +54,12 @@ for ($i = 0; $i < $quantity; $i++) {
             for ($j = 0; $j < $digitCount - $numCount; $j++){
                 $number ='0'. $number;
             }
+        $checkNumber = new checkNumberLength();
+        $checkNumber->checkNumber($number);
+        if ($checkNumber->checkNumber($number) != $number) {
+            echo $checkNumber->checkNumber($number);
+            continue;
+        }
         $result = $mysqli->query("SELECT number FROM table_1 WHERE number='$number'");
         $rows = $result->fetch_assoc();
     } while (!empty($rows));
