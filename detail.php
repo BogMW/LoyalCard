@@ -1,6 +1,8 @@
 <?php
 include "header.php";
 require_once ('config.php');
+require_once('addSumm_class.php');
+require_once('countOfSumm_class.php');
 
 $number = $_GET['number'];
 $result = $mysqli->query("SELECT series, number, start_date, end_date, status FROM table_1 WHERE number='$number'");
@@ -44,41 +46,15 @@ while ($rows2 = $result2->fetch_assoc()) {
     echo "</tr>";
 } ;
 
-
 echo "</table>";
-
 
 while ($rows = $result3->fetch_assoc())  {
     array_push($operSum, $rows['summ']);
 }
 
-
-class detail {
-
-    public function AddSumm($arr) {
-        foreach ($arr as $value) {
-            $sumByCard += $value;
-        }
-        echo ('Summ by card - ' . $sumByCard . '<br/>');
-        return $sumByCard;
-    }
-    public function CountOfSumm($arr) {
-        foreach ($arr as $value) {
-            $sumCount += 1;
-        }
-        echo ('Count of transactions - ' . $sumCount);
-        return $sumCount;
-    }
-}
-
-$detail = new detail();
-$detail->AddSumm($operSum);
-$detail->CountOfSumm($operSum);
-
-
-
-
-
-
+$addSumm = new addSumm_class();
+$countOfSumm = new countOfSumm_class();
+$addSumm->AddSumm($operSum);
+$countOfSumm->CountOfSumm($operSum);
 
 include "footer.php";
