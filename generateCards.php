@@ -10,6 +10,7 @@
 require_once ('config.php');
 require_once ('checkSeries.php');
 require_once ('checkNumberLength.php');
+require_once ('zeroCardCountCheck.php');
 include "header.php";
 $series = $_POST['series'];
 $quantity = $_POST['quantity'];
@@ -22,6 +23,7 @@ $rowCountArr = $result->fetch_assoc();
 $rowCount = $rowCountArr['COUNT(*)'];
 $tableMaxRows = 9999999999;
 $digitCount = strlen($tableMaxRows);
+$zeroCount = new zeroCardCountCheck();
 
 ?>
 <h1>Generate new cards</h1>
@@ -47,32 +49,38 @@ if (($rowCount+$quantity)>=$tableMaxRows){
     $quantity = $tableMaxRows-$rowCount;
 }
 
-for ($i = 0; $i < $quantity; $i++) {
-    do {
-        $number = rand(1,$tableMaxRows);
-        $numCount = strlen($number);
-            for ($j = 0; $j < $digitCount - $numCount; $j++){
-                $number ='0'. $number;
+if ($zeroCount->zeroCountCheck($quantity) == 0) {
+    $zeroCount->zeroCountCheck($quantity);
+} else {
+
+    for ($i = 0; $i < $quantity; $i++) {
+        do {
+            $number = rand(1, $tableMaxRows);
+            $numCount = strlen($number);
+            for ($j = 0; $j < $digitCount - $numCount; $j++) {
+                $number = '0' . $number;
             }
-        $checkNumber = new checkNumberLength();
-        $checkNumber->checkNumber($number);
-        if ($checkNumber->checkNumber($number) != $number) {
-            echo $checkNumber->checkNumber($number);
-            continue;
-        }
-        $result = $mysqli->query("SELECT number FROM table_1 WHERE number='$number'");
-        $rows = $result->fetch_assoc();
-    } while (!empty($rows));
+            $checkNumber = new checkNumberLength();
+            $checkNumber->checkNumber($number);
+            if ($checkNumber->checkNumber($number) != $number) {
+                echo $checkNumber->checkNumber($number);
+                continue;
+            }
+            $result = $mysqli->query("SELECT number FROM table_1 WHERE number='$number'");
+            $rows = $result->fetch_assoc();
+        } while (!empty($rows));
 
-$checkSeries = new checkSeries();
-$series = $checkSeries->checkRecordSeries($series);
+        $checkSeries = new checkSeries();
+        $series = $checkSeries->checkRecordSeries($series);
 
-    $mysqli->query("INSERT INTO table_1
+        $mysqli->query("INSERT INTO table_1
 (series, number, start_date, end_date, status)
 VALUES
 ('$series', '$number' , '$date', '$endDate', 'Active')
 ");
+    }
 }
+
 
 if ($quantity > 0) {
     echo "$quantity ". "cards are created";
