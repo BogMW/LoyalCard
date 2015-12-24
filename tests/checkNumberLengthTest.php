@@ -3,7 +3,7 @@
 require_once ('E:\OpenServer\OpenServer\domains\LoyalCard\checkNumberLength.php');
 
 
-class checkSeriesTest extends PHPUnit_Framework_TestCase
+class checkNumberLengthTest extends PHPUnit_Framework_TestCase
 {
     private $checkNumberLength;
 
