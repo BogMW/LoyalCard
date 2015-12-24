@@ -3,6 +3,7 @@ include "header.php";
 require_once ('config.php');
 require_once('addSumm_class.php');
 require_once('countOfSumm_class.php');
+require_once('zeroTransactionCheck.php');
 
 $number = $_GET['number'];
 $result = $mysqli->query("SELECT series, number, start_date, end_date, status FROM table_1 WHERE number='$number'");
@@ -12,6 +13,7 @@ $result3 = $mysqli->query("SELECT summ, date FROM operations WHERE number='$numb
 $operSum = array();
 $sumByCard = 0;
 $sumCount = 0;
+$zeroTransactionCheck = new zeroTransactionCheck();
 
 echo "<h1>Detail info by card #" .$number. "</h1>";
 
@@ -49,8 +51,11 @@ while ($rows2 = $result2->fetch_assoc()) {
 echo "</table>";
 
 while ($rows = $result3->fetch_assoc())  {
-    array_push($operSum, $rows['summ']);
+    if($zeroTransactionCheck->zeroCheck($rows['summ']) == 0) {
+       echo $zeroTransactionCheck->zeroCheck($rows['summ']);
+    } else array_push($operSum, $rows['summ']);
 }
+
 
 $addSumm = new addSumm_class();
 $countOfSumm = new countOfSumm_class();
