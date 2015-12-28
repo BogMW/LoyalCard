@@ -5,7 +5,7 @@ include ('expiration.php');
 
 ?>
 
-    <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum dolorem, excepturi impedit libero nulla perspiciatis repudiandae rerum sed soluta voluptatibus! Amet facere facilis tempore? Alias facilis fugiat ipsam libero velit?</h2>
+    <h2>For detail information click on the card</h2>
 
 
     <caption>Select all cards</caption>

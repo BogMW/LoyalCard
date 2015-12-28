@@ -1,0 +1,63 @@
+* {
+    box-sizing: border-box;
+}
+
+h1 {
+    color: white;
+}
+
+.shop-container {
+    margin: 0;
+    padding: 50px;
+}
+
+.login-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: auto;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(95,158,160,.9);
+    display: none;
+
+}
+
+.popup-container {
+    width: 450px;
+    margin: 15% auto;
+}
+
+.popup-inputs {
+    width: 250px;
+    margin: auto;
+}
+
+.popup-inputs button{
+    width: 100px;
+    margin:10px 60px 10px;
+
+
+}
+
+.clock{
+    width: 250px;
+    font-size: 64px;
+    margin: auto;
+}
+.hour {
+    color: green
+}
+
+.min {
+    color: blue
+}
+
+.sec {
+    color: red
+}
+
+.picture {
+    width: 200px;
+    height: 200px;
+}
