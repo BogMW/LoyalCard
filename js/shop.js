@@ -1,3 +1,4 @@
+// Array of products with 'name', 'price', and link to photo
 var  phones = [
     {   name: 'SamsungGalaxyS6',
         photo: 'url("../images/samsung-galaxy-s6.jpg")',
@@ -24,6 +25,7 @@ var  phones = [
         price: '18999'    }
 ];
 
+//Create one element of product
 
 function CreatePhone (id){
     var phone = document.createElement('div');
@@ -45,18 +47,21 @@ function CreatePhone (id){
     enter.value = 'Add to cart';
     enter.id = id;
     enter.setAttribute('onclick', "addToCart (this.getAttribute('id'))");
-
     phone.appendChild(images);
     phone.appendChild(names);
     phone.appendChild(prices);
     phone.appendChild(enter);
 }
 
+//Generate all products from array
+
 function Creator() {
     for (i = 0; i < phones.length; i++) {
         CreatePhone(i);
     }
 }
+
+// Emulate of login with one series and number check
 
 function enterToShop(series, number){
     if (series === 'AA' && number === '0050906598') {
@@ -74,6 +79,8 @@ function enterToShop(series, number){
 var summ = 0;
 var cart = [];
 
+//Add product to cart after clicking on "Add to cart" button
+
 function addToCart (id){
 cart.push(phones[id]);
     cartSumm(cart);
@@ -81,18 +88,9 @@ cart.push(phones[id]);
     if (document.getElementById('totalPrice').getAttribute('onclick') == 'closeDetail()') {
         closeDetail();
     }
-
 }
 
-function cartSumm(arr){
-    if(cart.length > 0) {
-        summ = 0;
-        arr.forEach(function (item, i){
-            summ += +item.price;
-        });
-    }
-    return summ;
-}
+// Generate and show cart
 
 function showCart() {
     var cart = document.createElement('div');
@@ -116,11 +114,25 @@ function showCart() {
     edit.type = 'button';
     edit.value = 'Confirm';
     edit.id = 'edit';
-    edit.setAttribute('onclick', "confirm()");
+    edit.setAttribute('onclick', "sendDate()");
     cart.appendChild(edit);
 }
 
+// Calculate total summ of all products
+
+function cartSumm(arr){
+    if(cart.length > 0) {
+        summ = 0;
+        arr.forEach(function (item, i){
+            summ += +item.price;
+        });
+    }
+    return summ;
+}
+
 var counter = 0;
+
+//Update cart total price when added new product
 
 function updateCart(){
     if(counter == 0) {
@@ -131,15 +143,8 @@ function updateCart(){
     }
 }
 
-function confirm(){
 
-}
-
-function CreateCartDetail(id){
-    var pos = document.createElement('li');
-    pos.innerHTML = cart[id].name + ' - ' + cart[id].price + 'UAH';
-    document.getElementById('list').appendChild(pos);
-}
+// Create detail cart
 
 function detail() {
     document.getElementById('cart').style.backgroundColor = 'white';
@@ -156,23 +161,51 @@ function detail() {
         }
     }
     cartDetail();
-
     document.getElementById('totalPrice').removeAttribute('onclick');
     document.getElementById('totalPrice').setAttribute('onclick', "closeDetail()");
     document.getElementById('orderSumm').removeAttribute('onclick');
     document.getElementById('orderSumm').setAttribute('onclick', "closeDetail()");
-
 }
+
+//Generate list of products in detail cart
+
+function CreateCartDetail(id){
+    var pos = document.createElement('li');
+    pos.innerHTML = cart[id].name + ' - ' + cart[id].price + 'UAH';
+    document.getElementById('list').appendChild(pos);
+}
+
+// Close the detail cart
 
 function closeDetail(){
     document.getElementById('cart').style.backgroundColor = '';
     document.getElementById('cart').style.borderRadius = '';
     document.getElementById('cart').style.border = '';
     document.getElementById('cart').style.padding = '';
-
     document.getElementById('cart').removeChild(document.getElementById('list'));
     document.getElementById('totalPrice').removeAttribute('onclick');
     document.getElementById('totalPrice').setAttribute('onclick', "detail()");
     document.getElementById('orderSumm').removeAttribute('onclick');
     document.getElementById('orderSumm').setAttribute('onclick', "detail()");
+}
+
+function sendDate() {
+    $.ajax({
+        type: 'POST',
+        url: 'shop.php',
+        data: {
+            "cartNumber": $("#cart-number").text(),
+            "cartSumm": parseInt($("#orderSumm").text())
+        },
+        success: function () {
+            if (summ == 0) {
+                alert('Add new products to cart');
+            } else {
+                alert('Thank you!');
+            }
+            summ = 0;
+           cart = [];
+            orderSumm.innerHTML = 0;
+        }
+    })
 }

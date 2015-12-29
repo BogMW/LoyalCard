@@ -62,7 +62,7 @@ $(document).ready (function (){
                 }
             }
         })
-    })
+    });
 
 
     $('.records-count').on('change', function (event) {
@@ -83,6 +83,7 @@ $(document).ready (function (){
                 }
             }
         })
-    })
+    });
+
 });
 

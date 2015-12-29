@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <title></title>
     <link href="css/shop-style.css" rel="stylesheet">
+    <script src='js/jquery-2.1.3.min.js'></script>
     <script src="js/clock.js"></script>
     <script src="js/shop.js"></script>
+    <script src="js/filter.js"></script>
+
 </head>
 <body>
 
@@ -54,6 +57,23 @@ require_once ('config.php');
 </script>
 
 
+    <?php
+    if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+    require_once('config.php');
+    $number = $_POST['cartNumber'];
+    $summ = $_POST['cartSumm'];
+
+    if ($summ == 0) {
+        echo "alert('Add some to cart')";
+    } else {
+        $mysqli->query("INSERT INTO operations
+(number, summ, date)
+VALUES
+('$number', '$summ' , CURRENT_TIMESTAMP )
+");
+    }
+    }
+    ?>
 </div>
 
 
