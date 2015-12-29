@@ -78,6 +78,10 @@ function addToCart (id){
 cart.push(phones[id]);
     cartSumm(cart);
     updateCart();
+    if (document.getElementById('totalPrice').getAttribute('onclick') == 'closeDetail()') {
+        closeDetail();
+    }
+
 }
 
 function cartSumm(arr){
@@ -94,16 +98,26 @@ function showCart() {
     var cart = document.createElement('div');
     cart.id = 'cart';
     cart.className = 'cart';
+    cart.style.cursor = 'pointer';
     cartContainer.appendChild(cart);
     var totalPrice = document.createElement('h2');
     totalPrice.className = 'totalPrice';
+    totalPrice.id = 'totalPrice';
     totalPrice.innerHTML = 'Total price of your order is';
+    totalPrice.setAttribute('onclick', "detail()");
     cart.appendChild(totalPrice);
     var orderSumm = document.createElement('div');
     orderSumm.id = 'orderSumm';
     orderSumm.class = 'orderSumm';
     orderSumm.innerHTML = summ + 'UAH';
+    orderSumm.setAttribute('onclick', "detail()");
     cart.appendChild(orderSumm);
+    var edit = document.createElement('input');
+    edit.type = 'button';
+    edit.value = 'Confirm';
+    edit.id = 'edit';
+    edit.setAttribute('onclick', "confirm()");
+    cart.appendChild(edit);
 }
 
 var counter = 0;
@@ -115,4 +129,50 @@ function updateCart(){
     } else {
         orderSumm.innerHTML = summ + 'UAH';
     }
+}
+
+function confirm(){
+
+}
+
+function CreateCartDetail(id){
+    var pos = document.createElement('li');
+    pos.innerHTML = cart[id].name + ' - ' + cart[id].price + 'UAH';
+    document.getElementById('list').appendChild(pos);
+}
+
+function detail() {
+    document.getElementById('cart').style.backgroundColor = 'white';
+    document.getElementById('cart').style.borderRadius = '10px';
+    document.getElementById('cart').style.border = '1px solid darkcyan';
+    document.getElementById('cart').style.padding = '10px';
+    var list = document.createElement('ul');
+    list.id = 'list';
+    list.style.listStyle = 'none';
+    document.getElementById('cart').insertBefore(list, edit);
+    function cartDetail() {
+        for (i = 0; i < cart.length; i++) {
+            CreateCartDetail(i);
+        }
+    }
+    cartDetail();
+
+    document.getElementById('totalPrice').removeAttribute('onclick');
+    document.getElementById('totalPrice').setAttribute('onclick', "closeDetail()");
+    document.getElementById('orderSumm').removeAttribute('onclick');
+    document.getElementById('orderSumm').setAttribute('onclick', "closeDetail()");
+
+}
+
+function closeDetail(){
+    document.getElementById('cart').style.backgroundColor = '';
+    document.getElementById('cart').style.borderRadius = '';
+    document.getElementById('cart').style.border = '';
+    document.getElementById('cart').style.padding = '';
+
+    document.getElementById('cart').removeChild(document.getElementById('list'));
+    document.getElementById('totalPrice').removeAttribute('onclick');
+    document.getElementById('totalPrice').setAttribute('onclick', "detail()");
+    document.getElementById('orderSumm').removeAttribute('onclick');
+    document.getElementById('orderSumm').setAttribute('onclick', "detail()");
 }
